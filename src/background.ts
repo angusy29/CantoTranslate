@@ -2,26 +2,24 @@ import PouchDB from 'pouchdb';
 
 const RESOURCE_PATH : string = "../resources/data.json";
 
-let db: PouchDB.Database;
+let db: PouchDB.Database = new PouchDB("CantoTranslate");
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({"appState": true});
   chrome.storage.local.set({"setupComplete": false});
-  db = new PouchDB('CantoTranslate');
   populateDefinitions();
 });
 
+// If the user deletes their storage then on browser
+// startup we will check and re-populate the database
 chrome.runtime.onStartup.addListener(() => {
-  console.debug("Startup!");
-  chrome.storage.local.get("appState", (data) => {
-    if (data.appState) {
-      console.debug("Populating on startup!");
-      chrome.storage.local.set({"appState": true});
+  db.info().then((response) => {
+    console.debug(response);
+    if (response.doc_count === 0) {
       chrome.storage.local.set({"setupComplete": false});
-      db = new PouchDB('CantoTranslate');
-      populateDefinitions();  
+      populateDefinitions();
     }
-  })
+  });
 });
 
 chrome.runtime.onMessage.addListener((message: any, sender: chrome.runtime.MessageSender, sendResponse: any) => {

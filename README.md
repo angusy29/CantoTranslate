@@ -33,7 +33,6 @@ To install, please do the following:
 * This only supports Traditional Chinese as input
 * Work in progress to support Simplified Chinese as input
 * All dictionaries are loaded client sided as there is no API, consider planning to build an API for the dictionaries so installation of dictionaries doesn't take 45 seconds
-* Dictionaries are stored in PouchDB, but PouchDB clears the database on browser close, so we reload dictionaries every startup
 
 ---
 
