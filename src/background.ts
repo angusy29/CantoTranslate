@@ -12,8 +12,10 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onStartup.addListener(() => {
-  chrome.storage.local.get("setupComplete", (data) => {
-    if (data.setupComplete) {
+  console.debug("Startup!");
+  chrome.storage.local.get("appState", (data) => {
+    if (data.appState) {
+      console.debug("Populating on startup!");
       chrome.storage.local.set({"appState": true});
       chrome.storage.local.set({"setupComplete": false});
       db = new PouchDB('CantoTranslate');
