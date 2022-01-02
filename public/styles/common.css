@@ -1,0 +1,21 @@
+.canto-translate .column {
+  display: flex;
+  flex-direction: column;
+}
+
+.canto-translate .row {
+  display: flex;
+  flex-direction: row;
+}
+
+.canto-translate .row-center {
+  justify-content: center;
+}
+
+.canto-translate .column-center {
+  justify-content: center;
+}
+
+.canto-translate .indent {
+  padding-left: 12px;
+}

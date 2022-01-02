@@ -1,0 +1,81 @@
+.canto-translate-card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px; /* 5px rounded corners */
+  background-color: rgba(239, 240, 239, 0.95);
+  max-height: 400px;
+  overflow-y: scroll;
+  z-index: 100;
+  min-width: 300px;
+  font-family: "Helvetica","Open Sans",Arial,sans-serif;
+}
+
+.canto-translate-card .row {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Add some padding inside the card container */
+.canto-translate-card .content {
+  padding: 24px 18px 18px 26px;
+  width: 300px;
+}
+
+.canto-translate-card .heading {
+  font-size: 22px;
+  font-weight: bold;
+  color: black;
+  padding-bottom: 2px;
+}
+
+.canto-translate-card .simplified {
+  font-weight: normal;
+  color: rgb(119, 119, 119);
+  padding-left: 2em;
+}
+
+.canto-translate-card .pronunciation {
+  font-size: 14px;
+}
+
+.canto-translate-card .jyutping {
+  font-weight: bold;
+  color: #777;
+}
+
+.canto-translate-card .pinyin {
+  color: rgb(119, 119, 119);
+  padding-left: 2em;
+}
+
+.canto-translate-card .definition-heading {
+  padding-top: 1em;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.canto-translate-card .text {
+  color: black;
+  font-size: 16px;
+  padding-left: 0px;
+}
+
+.canto-translate-card ol { 
+  counter-reset: item;
+  list-style-type: none;
+  margin: 1.3em 0 0 1em;
+}
+
+.canto-translate-card li { display: block; }
+
+.canto-translate-card li:before {
+  content: counter(item) " ";
+  color: rgb(119, 119, 119);
+  font-weight: bold;
+  counter-increment: item;
+  padding-right: 6px;
+}
+
+#canto-translate-disabled-sound-icon {
+  color:#777;
+}
