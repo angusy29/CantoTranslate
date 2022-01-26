@@ -13,8 +13,6 @@ How to use:
 Currently not published to Chrome Web Store.
 
 To install, please do the following:
-1. Download dictionaries [cedict dictionary download](https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.txt.gz) and [ccanto dictionary download](https://cantonese.org/cccanto-170202.zip) and place in folder `/resources/raw/definitions`
-1. Download [cccedict-canto readings download](https://cantonese.org/cccedict-canto-readings-150923.zip) and place in folder `/resources/raw/readings`
 1. Run `npm install` to install dependencies
 1. Run `npm run build` to build the application into `dist` folder
 1. Load `dist` folder into Chrome extensions to install extension
