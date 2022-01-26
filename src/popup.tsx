@@ -4,26 +4,29 @@ import "../public/styles/switch.css";
 import "../public/styles/common.css";
 
 const Popup = () => {
-  const [appState, setAppState] = useState<boolean>(true);
+  const [appState, setAppState] = useState<boolean>();
 
   useEffect(() => {
     chrome.storage.local.get("appState", (data) => {
       setAppState(data.appState);
-    })
+    });
   });
 
   const toggle = () => {
-    console.debug("Toggle", appState);
+    chrome.storage.local.set({ appState: !appState });
     setAppState(!appState);
-    chrome.storage.local.set({"appState": !appState});
-  }
+  };
 
   return (
     <>
       <div className="row row-center">
         <div className="column">
           <label className="form-switch">
-            <input type="checkbox" defaultChecked={appState} onChange={toggle}></input>
+            <input
+              type="checkbox"
+              defaultChecked={appState}
+              onClick={toggle}
+            ></input>
             <i></i>
           </label>
         </div>
@@ -41,7 +44,7 @@ ReactDOM.render(
       <div className="row row-center">
         <h2>CantoTranslate</h2>
       </div>
-      <Popup/>
+      <Popup />
     </div>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,3 +1,4 @@
+import boto3
 import json
 import logging
 import re
@@ -23,7 +24,7 @@ logging.basicConfig(level=logging.INFO)
 
 @dataclass
 class WordEntry:
-  _id: str
+  traditional: str
   simplified: str
   pinyin: str
   jyutping: str
@@ -48,7 +49,7 @@ with open(CANTONESE_DICTIONARY) as f:
     jyutping = search.group(4)[1:-1]
     definition = search.group(5)[1:-1]
 
-    words[traditional] = WordEntry(_id=traditional, simplified=simplified, pinyin=pinyin, jyutping=jyutping, definition=definition)
+    words[traditional] = WordEntry(traditional=traditional, simplified=simplified, pinyin=pinyin, jyutping=jyutping, definition=definition)
 
 print(words)
 
@@ -68,7 +69,7 @@ with open(MANDARIN_DICTIONARY) as f:
     definition = search.group(4)[1:-1]
 
     if traditional not in words:
-      words[traditional] = WordEntry(_id=traditional, simplified=simplified, pinyin=pinyin, jyutping="", definition=definition)
+      words[traditional] = WordEntry(traditional=traditional, simplified=simplified, pinyin=pinyin, jyutping="", definition=definition)
 
 
 words_not_found = 0
@@ -104,5 +105,17 @@ logger.info(f"{words_not_found}/{total_words} words not found in the dictionary"
 JSON_OUTPUT_FILE.parent.mkdir(exist_ok=True, parents=True)
 
 data = [ entry.__dict__ for _, entry in words.items() ]
-with open(BASE_RESOURCES_PATH / "processed" / "data.json", "w+", encoding="utf-8") as f:
+with open(f'{JSON_OUTPUT_FILE}', "w+", encoding="utf-8") as f:
   json.dump(data, f, ensure_ascii=False, indent=4)
+
+# Commented out populate ddb code because it's expensive
+
+dynamodb = boto3.resource('dynamodb')
+client = boto3.client('dynamodb')
+canto_translate_table = dynamodb.Table('CantoTranslate')
+
+with open(f'{JSON_OUTPUT_FILE}', 'r', encoding="utf-8") as f:
+  with canto_translate_table.batch_writer() as bw:
+    data = f.read()
+    for item in json.loads(data):
+      bw.put_item(Item=item)

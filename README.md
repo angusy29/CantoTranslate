@@ -32,7 +32,8 @@ To install, please do the following:
 
 * This only supports Traditional Chinese as input
 * Work in progress to support Simplified Chinese as input
-* All dictionaries are loaded client sided as there is no API, consider planning to build an API for the dictionaries so installation of dictionaries doesn't take 45 seconds
+* You can't translate hyperlinks; because the primary mode of input is a double click
+* Could consider free text search to support english -> chinese, but this is expensive
 
 ---
 

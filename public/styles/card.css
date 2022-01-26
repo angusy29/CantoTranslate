@@ -64,6 +64,7 @@
   counter-reset: item;
   list-style-type: none;
   margin: 1.3em 0 0 1em;
+  padding-left: 0px;
 }
 
 .canto-translate-card li { display: block; }
