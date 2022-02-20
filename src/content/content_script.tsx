@@ -53,6 +53,7 @@ const displayTranslatePopup = (event: any, data: any) => {
       {data && !data.definition && (
         <TranslationPopup
           traditional={data.traditional}
+          searchComplete={data.searchComplete}
           show={true}
           style={{ left, top, position }}
         />
@@ -90,7 +91,7 @@ document.addEventListener("dblclick", (e: MouseEvent) => {
     if (text.match(REGEX_CHINESE)) {
       const cardHeading: CardHeading = { traditional: text };
       // Display popup whichs says loading...
-      displayTranslatePopup(e, cardHeading);
+      displayTranslatePopup(e, { ...cardHeading, searchComplete: false });
 
       // Displays popup with definitions
       const generatePopup = async () => {
@@ -99,13 +100,13 @@ document.addEventListener("dblclick", (e: MouseEvent) => {
           (data) => {
             if (data.traditional) {
               console.debug(`Hit cache with: ${data.traditional}`);
-              displayTranslatePopup(e, data);
+              displayTranslatePopup(e, { ...data, searchComplete: true });
               return;
             }
             chrome.runtime.sendMessage(
               { action: API_ACTIONS.GET_DEFINITION, text: text },
               (data: DefinitionEntry) => {
-                displayTranslatePopup(e, data);
+                displayTranslatePopup(e, { ...data, searchComplete: true });
                 chrome.runtime.sendMessage({ action: "set-cache", data: data });
               }
             );

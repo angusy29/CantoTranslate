@@ -5,8 +5,9 @@ Learn Cantonese straight from your web browser!
 Translates and speaks Cantonese from traditional Chinese words!
 
 How to use:
-* Simply double click on a word or phrase and definitions and Jyutping will appear!
+* Simply **double click** on a word or phrase and definitions and Jyutping will appear!
 * You can also click on the sound icon to hear the pronunciation in Cantonese!
+* Any words without definitions will link you to a Google Translate link!
 
 ## Install and Develop
 
@@ -22,16 +23,16 @@ To install, please do the following:
 <p align="center">
   <img src="Screenshots/screenshot1.png" width="50%"/>
   <img src="Screenshots/screenshot2.png" width="50%"/>
+  <img src="Screenshots/screenshot3.png" width="50%"/>
 </p>
 
 ---
 
-## Pitfalls + Future Work:
+## Limitations:
 
 * This only supports Traditional Chinese as input
 * Work in progress to support Simplified Chinese as input
 * You can't translate hyperlinks; because the primary mode of input is a double click
-* Could consider free text search to support english -> chinese, but this is expensive
 
 ---
 

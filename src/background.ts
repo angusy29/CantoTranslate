@@ -10,10 +10,15 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onMessage.addListener(
-  (message: any, sender: chrome.runtime.MessageSender, sendResponse: any) => {
+  (message: any, _: chrome.runtime.MessageSender, sendResponse: any) => {
     if (message.action === API_ACTIONS.GET_DEFINITION) {
       getDefinition(message.text).then((definitionEntry: DefinitionEntry) => {
-        sendResponse(definitionEntry);
+        if (definitionEntry['traditional'] === undefined) {
+          // If the definition cannot be found, just send the selected text
+          sendResponse({"traditional": message.text});
+        } else {
+          sendResponse(definitionEntry);
+        }
       });
 
       // Return true allows us to keep the communication channel open
@@ -23,6 +28,7 @@ chrome.runtime.onMessage.addListener(
 
     if (message.action === "set-cache") {
       let entry = message.data;
+      // PouchDB requires the primary key to be _id
       entry["_id"] = entry["traditional"];
 
       db.put(entry).catch((err) => {

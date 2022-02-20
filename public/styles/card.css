@@ -60,6 +60,13 @@
   padding-left: 0px;
 }
 
+.canto-translate-card .muted-text {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 .canto-translate-card ol { 
   counter-reset: item;
   list-style-type: none;
