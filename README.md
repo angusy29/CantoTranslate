@@ -53,6 +53,11 @@ Definitions and readings were sourced from the following sites:
   * [ccanto dictionary download](https://cantonese.org/cccanto-170202.zip)
   * [cccedict-canto readings download](https://cantonese.org/cccedict-canto-readings-150923.zip)
 
+### Icons
+
+<a href="https://www.flaticon.com/free-icons/hong-kong" title="hong kong icons">Hong kong icons created by Good Ware - Flaticon</a>
+
+
 ### Development
 
 * For the Chrome Extension Typescript React boilerplate: https://github.com/chibat/chrome-extension-typescript-starter
