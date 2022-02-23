@@ -7,10 +7,10 @@ const contentDir = path.join(__dirname, "..", "src", "content");
 
 module.exports = {
   entry: {
-    popup: path.join(srcDir, 'popup.tsx'),
-    background: path.join(srcDir, 'background.ts'),
-    content_script: path.join(contentDir, 'content_script.tsx'),
-    translation_popup: path.join(contentDir, 'translation_popup.tsx')
+    popup: path.join(srcDir, "popup.tsx"),
+    background: path.join(srcDir, "background.ts"),
+    content_script: path.join(contentDir, "content_script.tsx"),
+    translation_popup: path.join(contentDir, "translation_popup.tsx"),
   },
   output: {
     path: path.join(__dirname, "../dist/js"),
@@ -20,8 +20,8 @@ module.exports = {
     splitChunks: {
       name: "vendor",
       chunks(chunk) {
-        return chunk.name !== 'background';
-      }
+        return chunk.name !== "background";
+      },
     },
   },
   module: {
@@ -34,7 +34,7 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
-      }
+      },
     ],
   },
   resolve: {
@@ -44,10 +44,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: ".", to: "../", context: "public" },
-        { from: ".", to: "../WebSpeech", context: "WebSpeech"},
-        { from: ".", to: "../resources", context: "resources/processed" }
+        { from: ".", to: "../WebSpeech", context: "WebSpeech" },
       ],
       options: {},
-    })
+    }),
   ],
 };
