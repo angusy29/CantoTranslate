@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CantoTranslate",
-  "description": "Learn Cantonese straight from your browser!",
+  "description": "This extension helps you learn Cantonese straight from your browser, by creating a Cantonese Popover Dictionary!",
   "version": "1.0",
   "icons": {
     "128": "128.png"
@@ -20,8 +20,7 @@
     "service_worker": "js/background.js"
   },
   "permissions": [
-    "storage",
-    "unlimitedStorage"
+    "storage"
   ],
   "host_permissions": [
     "<all_urls>"

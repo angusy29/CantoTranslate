@@ -1,4 +1,4 @@
-import { DefinitionEntry } from "./types";
+import { CACHE_ACTIONS, DefinitionEntry } from "./types";
 import { getDefinition } from "./api_client/client";
 import PouchDB from "pouchdb";
 import { API_ACTIONS } from "./api_client/constants";
@@ -16,6 +16,9 @@ chrome.runtime.onMessage.addListener(
         if (definitionEntry['traditional'] === undefined) {
           // If the definition cannot be found, just send the selected text
           sendResponse({"traditional": message.text});
+        } else if (definitionEntry['message'] !== undefined) {
+          console.debug("Received exceptional message: " + definitionEntry['message']);
+          sendResponse({"traditional": message.text});
         } else {
           sendResponse(definitionEntry);
         }
@@ -26,8 +29,8 @@ chrome.runtime.onMessage.addListener(
       return true;
     }
 
-    if (message.action === "set-cache") {
-      let entry = message.data;
+    if (message.action === CACHE_ACTIONS.SET_CACHE) {
+      let entry: DefinitionEntry = message.data;
       // PouchDB requires the primary key to be _id
       entry["_id"] = entry["traditional"];
 
@@ -38,7 +41,7 @@ chrome.runtime.onMessage.addListener(
       return true;
     }
 
-    if (message.action === "get-cache") {
+    if (message.action === CACHE_ACTIONS.GET_CACHE) {
       db.get(message.text)
         .then((definitionEntry) => {
           sendResponse(definitionEntry);
