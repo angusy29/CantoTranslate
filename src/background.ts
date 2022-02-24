@@ -1,9 +1,10 @@
 import { CACHE_ACTIONS, DefinitionEntry } from "./types";
-import { getDefinition } from "./api_client/client";
+import { CantoTranslateClient } from "./api_client/client";
 import PouchDB from "pouchdb";
 import { API_ACTIONS } from "./api_client/constants";
 
 let db: PouchDB.Database = new PouchDB("CantoTranslate");
+const cantoTranslateClient = new CantoTranslateClient();
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({ appState: true });
@@ -12,7 +13,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onMessage.addListener(
   (message: any, _: chrome.runtime.MessageSender, sendResponse: any) => {
     if (message.action === API_ACTIONS.GET_DEFINITION) {
-      getDefinition(message.text).then((definitionEntry: DefinitionEntry) => {
+      cantoTranslateClient.getDefinition(message.text).then((definitionEntry: DefinitionEntry) => {
         if (definitionEntry['traditional'] === undefined) {
           // If the definition cannot be found, just send the selected text
           sendResponse({"traditional": message.text});
