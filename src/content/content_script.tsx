@@ -3,7 +3,7 @@ import {
   APP_WRAPPER_ID,
   TRANSLATE_POPUP_ID,
 } from "./translation_popup";
-import { CardHeading, DefinitionEntry } from "../types";
+import { CACHE_ACTIONS, CardHeading, DefinitionEntry } from "../types";
 import React from "react";
 import ReactDOM from "react-dom";
 import { API_ACTIONS } from "../api_client/constants";
@@ -96,18 +96,19 @@ document.addEventListener("dblclick", (e: MouseEvent) => {
       // Displays popup with definitions
       const generatePopup = async () => {
         chrome.runtime.sendMessage(
-          { action: "get-cache", text: text },
-          (data) => {
+          { action: CACHE_ACTIONS.GET_CACHE, text: text },
+          (data: DefinitionEntry) => {
             if (data.traditional) {
               console.debug(`Hit cache with: ${data.traditional}`);
               displayTranslatePopup(e, { ...data, searchComplete: true });
               return;
             }
+
             chrome.runtime.sendMessage(
               { action: API_ACTIONS.GET_DEFINITION, text: text },
               (data: DefinitionEntry) => {
                 displayTranslatePopup(e, { ...data, searchComplete: true });
-                chrome.runtime.sendMessage({ action: "set-cache", data: data });
+                chrome.runtime.sendMessage({ action: CACHE_ACTIONS.SET_CACHE, data: data });
               }
             );
           }
