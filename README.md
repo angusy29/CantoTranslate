@@ -9,9 +9,20 @@ How to use:
 * You can also click on the sound icon to hear the pronunciation in Cantonese!
 * Any words without definitions will link you to a Google Translate link!
 
-## Install and Develop
+## Chrome Extension
 
-Currently not published to Chrome Web Store.
+Chrome Extension: https://chrome.google.com/webstore/detail/cantotranslate/idagpklnbkefmgdajpopkngfnnjiiadj
+
+## Install and develop
+
+To install, please do the following:
+1. Run `npm install` to install dependencies
+1. Run `npm run watch` to build the application into `dist` folder with development feature flags, this will hot reload changes
+1. Load `dist` folder into Chrome extensions to install extension
+
+Note: Turn on and off feature flags in `webpack.dev.js`
+
+## Install and distribute on Chrome
 
 To install, please do the following:
 1. Run `npm install` to install dependencies
@@ -25,14 +36,6 @@ To install, please do the following:
   <img src="Screenshots/screenshot2.png" width="50%"/>
   <img src="Screenshots/screenshot3.png" width="50%"/>
 </p>
-
----
-
-## Limitations:
-
-* This only supports Traditional Chinese as input
-* Work in progress to support Simplified Chinese as input
-* You can't translate hyperlinks; because the primary mode of input is a double click
 
 ---
 

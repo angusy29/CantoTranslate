@@ -1,3 +1,4 @@
+import { mock_get_definition } from "../configurations/featureFlagTypes";
 import { DefinitionEntry } from "../types";
 import { dryable } from "../utils/dryable";
 import { API_ACTIONS } from "./constants";
@@ -11,10 +12,10 @@ const dryrunGetDefinition = {
   pinyin: "ping2 guo3",
   jyutping: "ping4 gwo2",
   definition: "This is a dryrun"
-}
+};
 
 export class CantoTranslateClient {
-  @dryable('mock-get-definition', Promise.resolve(dryrunGetDefinition))
+  @dryable(mock_get_definition, Promise.resolve(dryrunGetDefinition))
   async getDefinition(text: string): Promise<DefinitionEntry> {
     const response = await fetch(
       `${API_SERVER}${API_ACTIONS.GET_DEFINITION}?traditional=${text}`

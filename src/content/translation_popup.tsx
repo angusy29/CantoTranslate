@@ -93,8 +93,8 @@ export const TranslationPopup = (props: any) => {
                     <div className="definition-heading">Definitions:</div>
                   </div>
                   <ol>
-                    {definitions.map((definition: string) => (
-                      <li className="text">{definition}</li>
+                    {definitions.map((definition: string, index: number) => (
+                      <li key="{index}" className="text">{definition}</li>
                     ))}
                   </ol>
                 </div>
