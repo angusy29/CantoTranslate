@@ -1,9 +1,9 @@
 const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const srcDir = path.join(__dirname, "..", "src");
 const contentDir = path.join(__dirname, "..", "src", "content");
+
 
 module.exports = {
   entry: {
