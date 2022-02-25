@@ -94,7 +94,7 @@ export const TranslationPopup = (props: any) => {
                   </div>
                   <ol>
                     {definitions.map((definition: string, index: number) => (
-                      <li key="{index}" className="text">{definition}</li>
+                      <li key={index} className="text">{definition}</li>
                     ))}
                   </ol>
                 </div>
