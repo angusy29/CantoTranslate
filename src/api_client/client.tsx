@@ -1,4 +1,3 @@
-import { mock_get_definition } from "../configurations/featureFlagTypes";
 import { DefinitionEntry } from "../types";
 import { dryable } from "../utils/dryable";
 import { API_ACTIONS } from "./constants";
