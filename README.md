@@ -5,7 +5,7 @@ Learn Cantonese straight from your web browser!
 Translates and speaks Cantonese from traditional Chinese words!
 
 How to use:
-* Simply **double click** on a word or phrase and definitions and Jyutping will appear!
+* Simply **double click** or **highlight and hover** on a word or phrase and definitions and Jyutping will appear!
 * You can also click on the sound icon to hear the pronunciation in Cantonese!
 * Any words without definitions will link you to a Google Translate link!
 
