@@ -4,8 +4,10 @@
   "description": "Learn Cantonese straight from your browser!",
   "main": "index.js",
   "scripts": {
-    "watch": "webpack --config webpack/webpack.dev.js --watch",
-    "build": "webpack --config webpack/webpack.prod.js",
+    "watch-chrome": "cp public/chrome-manifest.json public/manifest.json && webpack --config webpack/webpack.dev.js --watch",
+    "watch-firefox": "cp public/firefox-manifest.json public/manifest.json && webpack --config webpack/webpack.dev.js --watch",
+    "build-chrome": "cp public/chrome-manifest.json public/manifest.json && webpack --config webpack/webpack.prod.js",
+    "build-firefox": "cp public/firefox-manifest.json public/manifest.json && webpack --config webpack/webpack.prod.js",
     "clean": "rimraf dist",
     "test": "npx jest",
     "style": "prettier --write \"src/**/*.{ts,tsx}\""

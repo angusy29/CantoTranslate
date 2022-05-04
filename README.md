@@ -4,30 +4,44 @@ Learn Cantonese straight from your web browser!
 
 Translates and speaks Cantonese from traditional Chinese words!
 
+Supports Chrome and Firefox!
+
 How to use:
 * Simply **double click** or **highlight and hover** on a word or phrase and definitions and Jyutping will appear!
 * You can also click on the sound icon to hear the pronunciation in Cantonese!
 * Any words without definitions will link you to a Google Translate link!
 
+**Version 1.1**
+* Allow user to highlight and hover over text to translate text
+
 ## Chrome Extension
 
 Chrome Extension: https://chrome.google.com/webstore/detail/cantotranslate/idagpklnbkefmgdajpopkngfnnjiiadj
 
-## Install and develop
+## Chrome: Install and develop
 
 To install, please do the following:
 1. Run `npm install` to install dependencies
-1. Run `npm run watch` to build the application into `dist` folder with development feature flags, this will hot reload changes
+1. Run `npm run watch-chrome` to build the application into `dist` folder with development feature flags, this will hot reload changes
 1. Load `dist` folder into Chrome extensions to install extension
 
 Note: Turn on and off feature flags in `webpack.dev.js`
 
-## Install and distribute on Chrome
+## Chrome: Install and distribute
 
 To install, please do the following:
 1. Run `npm install` to install dependencies
-1. Run `npm run build` to build the application into `dist` folder
-1. Load `dist` folder into Chrome extensions to install extension
+1. Run `npm run build-chrome` to build the application into `dist` folder
+1. Zip up `dist` folder, this is what will be uploaded to Chrome developer dashboard
+
+## Firefox: Install and develop
+
+To install, please do the following:
+1. Run `npm install` to install dependencies
+1. Run `npm run watch-firefox` to build the application into `dist` folder with development feature flags, this will hot reload changes
+1. Go to Firefox URL `about:debugging#/setup` and click on `manifest.json` in `dist` folder to install extension
+
+Note: Turn on and off feature flags in `webpack.dev.js`
 
 ## Screenshots
 
