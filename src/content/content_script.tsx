@@ -16,8 +16,19 @@ const SPEED_DELTA = -10;
 // This is intentionally declared to stop typescript from warning
 // WebSpeech is imported via manifest.json
 declare const WebSpeech: any;
+declare const soundManager: any;
+
+// I'm really not sure why Firefox doesn't properly set up
+// sound manager, so I'm manually setting it up here
+// url, debugMode, onReady copied from WebSpeech.js
+soundManager.setup({
+  url: '/WebSpeech/soundmanager2',
+  debugMode: false,
+  onready: function() { WebSpeech.onready(); }
+});
 
 WebSpeech.ready(() => {
+  console.debug("Setting up WebSpeech");
   WebSpeech.server = SERVER;
   WebSpeech.setVoice(VOICE);
   WebSpeech.setSpeedDelta(SPEED_DELTA);

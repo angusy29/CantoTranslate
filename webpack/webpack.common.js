@@ -44,7 +44,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: ".", to: "../", context: "public" },
-        { from: ".", to: "../WebSpeech", context: "WebSpeech"}
+        { from: ".", to: "../WebSpeech", context: "WebSpeech" }
       ],
       options: {},
     }),

@@ -7,6 +7,7 @@ export const APP_WRAPPER_ID = "canto-translate-chrome-extension-wrapper";
 export const TRANSLATE_POPUP_ID = "canto-translate-card";
 
 declare const WebSpeech: any;
+
 const SOUND_ICON = chrome.runtime.getURL("icons8-sound.ico");
 const DISABLED_SOUND_ICON = chrome.runtime.getURL("icons8-disabled.ico");
 
