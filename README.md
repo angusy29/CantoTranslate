@@ -1,4 +1,4 @@
-# CantoTranslate Chrome Extension
+# CantoTranslate Browser Extension
 
 Learn Cantonese straight from your web browser!
 
@@ -14,9 +14,11 @@ How to use:
 **Version 1.1**
 * Allow user to highlight and hover over text to translate text
 
-## Chrome Extension
+## Release
 
 Chrome Extension: https://chrome.google.com/webstore/detail/cantotranslate/idagpklnbkefmgdajpopkngfnnjiiadj
+
+Firefox Extension: https://addons.mozilla.org/en-US/firefox/addon/cantotranslate/
 
 ## Chrome: Install and develop
 
@@ -34,6 +36,7 @@ To install, please do the following:
 1. Run `npm run build-chrome` to build the application into `dist` folder
 1. Zip up `dist` folder, this is what will be uploaded to Chrome developer dashboard
 
+
 ## Firefox: Install and develop
 
 To install, please do the following:
@@ -42,6 +45,14 @@ To install, please do the following:
 1. Go to Firefox URL `about:debugging#/setup` and click on `manifest.json` in `dist` folder to install extension
 
 Note: Turn on and off feature flags in `webpack.dev.js`
+
+## Firefox: Install and distribute
+
+To install, please do the following:
+1. Run `npm install` to install dependencies
+1. Run `npm run build-firefox` to build the application into `dist` folder
+1. Go into the dist folder, select all the contents (files) in the dist folder and zip it
+1. Submit the zip to Firefox addons developer dashboard
 
 ## Screenshots
 
