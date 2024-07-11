@@ -1,7 +1,7 @@
-WebSpeech is a free javascript library for web developers who want to write pages with voice. It relies on a Web TTS server in the backend. The default one http://wa.eguidedog.net is free for limited bandwidth usage. If you want to have better service, please contact Cameron Wong. You can also setup the Web TTS server yourself. All the softwares we used are free.
+WebSpeech is a free javascript library for web developers who want to write pages with voice. It relies on a Web TTS server in the backend. 
 
 Author: Cameron Wong (hgneng at gmail.com)
-Website: http://www.eguidedog.net/WebSpeech.php
+Website: https://eguidedog.net/WebSpeech.php
 License: please refer to WebSpeech.js
 
 ===== Usage =====
@@ -46,3 +46,11 @@ WebSpeech.saveOgg('text to save to OGG format file');
 // the result will pass as the arguments.
 WebSpeech.getPhonSymbols('text', function (success, symbols) { ... });
 
+// 开始识别语音
+WebSpeech.srStart();
+
+// 停止识别语音
+WebSpeech.srStop();
+
+// 当识别出语音后运行
+WebSpeech.srSpeechRecognized = function(result) { ... };

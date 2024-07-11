@@ -9,8 +9,7 @@ import ReactDOM from "react-dom";
 import { API_ACTIONS } from "../api_client/constants";
 import { isTranslationPopupShowing } from "../utils/utils";
 
-const SERVER = "https://zhiwei-tech.com/cgi-bin/ekho2.pl";
-const VOICE = "iflytekXiaomei";
+const VOICE = "EkhoCantonese";
 const SPEED_DELTA = -10;
 
 // This is intentionally declared to stop typescript from warning
@@ -29,7 +28,6 @@ soundManager.setup({
 
 WebSpeech.ready(() => {
   console.debug("Setting up WebSpeech");
-  WebSpeech.server = SERVER;
   WebSpeech.setVoice(VOICE);
   WebSpeech.setSpeedDelta(SPEED_DELTA);
 });
