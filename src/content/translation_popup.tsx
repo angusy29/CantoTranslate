@@ -59,7 +59,7 @@ export const TraditionalHeading = (props: CardHeading) => {
 };
 
 export const TranslationPopup = (props: any) => {
-  const googleTranslateLink = "https://translate.google.com/?sl=zh-CN&tl=en&text=" + props.traditional + "&op=translate&hl=en";
+  const googleTranslateLink = "https://translate.google.com/?sl=yue&tl=en&text=" + props.traditional + "&op=translate&hl=en";
   let definitions: string[] = [];
 
   if (props && props.definition) {
@@ -98,6 +98,11 @@ export const TranslationPopup = (props: any) => {
                       <li key={index} className="text">{definition}</li>
                     ))}
                   </ol>
+                  <div className="row">
+                    <a className="muted-text" href={googleTranslateLink} target="_blank">
+                      Search for {props.traditional} on Google Translate!
+                    </a>
+                  </div>
                 </div>
               </>
             )}
@@ -117,11 +122,16 @@ export const TranslationPopup = (props: any) => {
           <div className="content">
             <>
               <div className="canto-translate">
-                <TraditionalHeading traditional={props.traditional}/>
+                <TraditionalHeading traditional={props.traditional} />
                 <div className="row">
                   <div className="definition-heading">
                     Fetching definitions...
                   </div>
+                </div>
+                <div className="row">
+                  <a className="muted-text" href={googleTranslateLink} target="_blank">
+                    Search for {props.traditional} on Google Translate!
+                  </a>
                 </div>
               </div>
             </>
@@ -130,32 +140,32 @@ export const TranslationPopup = (props: any) => {
       )}
       {props.show && !props.definition && props.searchComplete && (
         <div
-        className={TRANSLATE_POPUP_ID}
-        id={TRANSLATE_POPUP_ID}
-        style={{
-          position: props.style.position,
-          left: props.style.left + "px",
-          top: props.style.top + "px",
-        }}
-      >
-        <div className="content">
-          <>
-            <div className="canto-translate">
-              <TraditionalHeading traditional={props.traditional} />
-              <div className="row">
-                <div className="definition-heading">
-                  No definitions found!
+          className={TRANSLATE_POPUP_ID}
+          id={TRANSLATE_POPUP_ID}
+          style={{
+            position: props.style.position,
+            left: props.style.left + "px",
+            top: props.style.top + "px",
+          }}
+        >
+          <div className="content">
+            <>
+              <div className="canto-translate">
+                <TraditionalHeading traditional={props.traditional} />
+                <div className="row">
+                  <div className="definition-heading">
+                    No definitions found!
+                  </div>
+                </div>
+                <div className="row">
+                  <a className="muted-text" href={googleTranslateLink} target="_blank">
+                    Search for {props.traditional} on Google Translate!
+                  </a>
                 </div>
               </div>
-              <div className="row">
-                <a className="muted-text" href={googleTranslateLink} target="_blank">
-                  Search for {props.traditional} on Google Translate!
-                </a>
-              </div>
-            </div>
-          </>
+            </>
+          </div>
         </div>
-      </div>
       )}
     </>
   );

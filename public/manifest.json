@@ -1,10 +1,14 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "CantoTranslate",
   "description": "This extension helps you learn Cantonese straight from your browser, by creating a Cantonese Popover Dictionary!",
   "version": "1.3",
   "icons": {
     "128": "128.png"
+  },
+  "action": {
+    "default_icon": "128.png",
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
@@ -19,21 +23,23 @@
     }
   ],
   "background": {
-    "scripts": [
-      "js/background.js"
-    ]
+    "service_worker": "js/background.js"
   },
   "permissions": [
     "storage"
   ],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "cantotranslate@example.com",
-      "strict_min_version": "58.0"
-    }
-  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "web_accessible_resources": [
-    "icons8-sound.ico",
-    "icons8-disabled.ico"
+    {
+      "resources": [
+        "icons8-sound.ico",
+        "icons8-disabled.ico"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ]
 }
