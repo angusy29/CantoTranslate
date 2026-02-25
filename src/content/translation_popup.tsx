@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import "../../public/styles/card.css";
 import "../../public/styles/common.css";
-import { CardHeading } from "../types";
+import { CardHeading, DefinitionEntry } from "../types";
 
 export const APP_WRAPPER_ID = "canto-translate-chrome-extension-wrapper";
 export const TRANSLATE_POPUP_ID = "canto-translate-card";
 
-declare const WebSpeech: any;
 
 const SOUND_ICON = chrome.runtime.getURL("icons8-sound.ico");
 const DISABLED_SOUND_ICON = chrome.runtime.getURL("icons8-disabled.ico");
@@ -14,13 +13,21 @@ const DISABLED_SOUND_ICON = chrome.runtime.getURL("icons8-disabled.ico");
 export const TraditionalHeading = (props: CardHeading) => {
   const [isSoundPlaying, setIsSoundPlaying] = useState<boolean>(false);
 
-  const sayWord = (): void => {
+  const sayWord = async (): Promise<void> => {
     setIsSoundPlaying(true);
-    WebSpeech.speak(props.traditional);
-  };
 
-  WebSpeech.onfinish = (): void => {
-    setIsSoundPlaying(false);
+    try {
+      const url =
+        "https://mb0vkk3lb0.execute-api.ap-southeast-2.amazonaws.com/Staging/get-pronunciation" +
+        `?traditional=${encodeURIComponent(props.traditional)}`;
+
+      const audio = new Audio(url);
+      await audio.play();
+    } catch (err) {
+      console.error("Failed to play pronunciation", err);
+    } finally {
+      setIsSoundPlaying(false);
+    }
   };
 
   return (
@@ -59,16 +66,22 @@ export const TraditionalHeading = (props: CardHeading) => {
 };
 
 export const TranslationPopup = (props: any) => {
-  const googleTranslateLink = "https://translate.google.com/?sl=yue&tl=en&text=" + props.traditional + "&op=translate&hl=en";
-  let definitions: string[] = [];
+  const entries: DefinitionEntry[] = props.entries || [];
+  const first: DefinitionEntry | undefined = entries[0];
 
-  if (props && props.definition) {
-    definitions = props.definition.split("/");
-  }
+  const traditional = first?.traditional ?? props.originalText ?? "";
+  const simplified = first?.simplified ?? "";
+  const jyutping = first?.jyutping ?? "";
+  const pinyin = first?.pinyin ?? "";
+
+  const googleTranslateLink =
+    "https://translate.google.com/?sl=yue&tl=en&text=" +
+    traditional +
+    "&op=translate&hl=en";
 
   return (
     <>
-      {props.show && props.definition && (
+      {props.show && entries.length > 0 && (
         <div
           className={TRANSLATE_POPUP_ID}
           id={TRANSLATE_POPUP_ID}
@@ -79,37 +92,54 @@ export const TranslationPopup = (props: any) => {
           }}
         >
           <div className="content">
-            {props.definition && (
-              <>
-                <div className="canto-translate">
+            <div className="canto-translate">
+              {entries.map((entry: DefinitionEntry, index: number) => (
+                <div
+                  key={entry._id || index}
+                  style={{
+                    paddingTop: "8px",
+                    paddingBottom: "12px",
+                    marginBottom: index < entries.length - 1 ? "14px" : "0",
+                    borderBottom:
+                      index < entries.length - 1
+                        ? "1px solid #ddd"
+                        : "none",
+                  }}
+                >
                   <TraditionalHeading
-                    traditional={props.traditional}
-                    simplified={props.simplified}
+                    traditional={entry.traditional}
+                    simplified={entry.simplified}
                   />
                   <div className="row pronunciation">
-                    <div className="jyutping">{props.jyutping}</div>
-                    <div className="pinyin">[{props.pinyin}]</div>
+                    <div className="jyutping">{entry.jyutping}</div>
+                    <div className="pinyin">[{entry.pinyin}]</div>
                   </div>
                   <div className="row">
                     <div className="definition-heading">Definitions:</div>
                   </div>
                   <ol>
-                    {definitions.map((definition: string, index: number) => (
-                      <li key={index} className="text">{definition}</li>
+                    {entry.definitions.map((def: string, defIndex: number) => (
+                      <li key={defIndex} className="text">
+                        {def}
+                      </li>
                     ))}
                   </ol>
-                  <div className="row">
-                    <a className="muted-text" href={googleTranslateLink} target="_blank">
-                      Search for {props.traditional} on Google Translate!
-                    </a>
-                  </div>
                 </div>
-              </>
-            )}
+              ))}
+              <div className="row">
+                <a
+                  className="muted-text"
+                  href={googleTranslateLink}
+                  target="_blank"
+                >
+                  Search for {traditional} on Google Translate!
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}
-      {props.show && !props.definition && !props.searchComplete && (
+      {props.show && entries.length === 0 && !props.searchComplete && (
         <div
           className={TRANSLATE_POPUP_ID}
           id={TRANSLATE_POPUP_ID}
@@ -120,25 +150,25 @@ export const TranslationPopup = (props: any) => {
           }}
         >
           <div className="content">
-            <>
-              <div className="canto-translate">
-                <TraditionalHeading traditional={props.traditional} />
-                <div className="row">
-                  <div className="definition-heading">
-                    Fetching definitions...
-                  </div>
-                </div>
-                <div className="row">
-                  <a className="muted-text" href={googleTranslateLink} target="_blank">
-                    Search for {props.traditional} on Google Translate!
-                  </a>
-                </div>
+            <div className="canto-translate">
+              <TraditionalHeading traditional={traditional} />
+              <div className="row">
+                <div className="definition-heading">Fetching definitions...</div>
               </div>
-            </>
+              <div className="row">
+                <a
+                  className="muted-text"
+                  href={googleTranslateLink}
+                  target="_blank"
+                >
+                  Search for {traditional} on Google Translate!
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}
-      {props.show && !props.definition && props.searchComplete && (
+      {props.show && entries.length === 0 && props.searchComplete && (
         <div
           className={TRANSLATE_POPUP_ID}
           id={TRANSLATE_POPUP_ID}
@@ -149,21 +179,21 @@ export const TranslationPopup = (props: any) => {
           }}
         >
           <div className="content">
-            <>
-              <div className="canto-translate">
-                <TraditionalHeading traditional={props.traditional} />
-                <div className="row">
-                  <div className="definition-heading">
-                    No definitions found!
-                  </div>
-                </div>
-                <div className="row">
-                  <a className="muted-text" href={googleTranslateLink} target="_blank">
-                    Search for {props.traditional} on Google Translate!
-                  </a>
-                </div>
+            <div className="canto-translate">
+              <TraditionalHeading traditional={traditional} />
+              <div className="row">
+                <div className="definition-heading">No definitions found!</div>
               </div>
-            </>
+              <div className="row">
+                <a
+                  className="muted-text"
+                  href={googleTranslateLink}
+                  target="_blank"
+                >
+                  Search for {traditional} on Google Translate!
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}

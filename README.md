@@ -66,11 +66,6 @@ To install, please do the following:
 
 ## Credits
 
-### Dependencies
-
-* [WebSpeech 4.2](https://sourceforge.net/projects/e-guidedog/files/WebSpeech/)
-  * This library isn't version controlled, and downloaded directly from Sourceforge
-
 ### Dictionaries
 
 Definitions and readings were sourced from the following sites:

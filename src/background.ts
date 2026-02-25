@@ -12,17 +12,9 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.runtime.onMessage.addListener(
   (message: any, _: chrome.runtime.MessageSender, sendResponse: any) => {
-    if (message.action === API_ACTIONS.GET_DEFINITION) {
-      cantoTranslateClient.getDefinition(message.text).then((definitionEntry: DefinitionEntry) => {
-        if (definitionEntry['traditional'] === undefined) {
-          // If the definition cannot be found, just send the selected text
-          sendResponse({"traditional": message.text});
-        } else if (definitionEntry['message'] !== undefined) {
-          console.debug("Received exceptional message: " + definitionEntry['message']);
-          sendResponse({"traditional": message.text});
-        } else {
-          sendResponse(definitionEntry);
-        }
+    if (message.action === API_ACTIONS.GET_ENTRIES) {
+      cantoTranslateClient.getEntries(message.text).then((entries: DefinitionEntry[]) => {
+        sendResponse(entries);
       });
 
       // Return true allows us to keep the communication channel open

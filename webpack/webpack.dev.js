@@ -8,7 +8,7 @@ module.exports = merge(common, {
     plugins: [
         // https://stackoverflow.com/questions/44655095/global-variables-are-undefined-in-typescript-coming-from-webpack
         new webpack.DefinePlugin({
-            mock_get_definition: JSON.stringify(true)
+            mock_get_entries: false
         })
     ]
 });

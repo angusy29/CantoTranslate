@@ -3,34 +3,11 @@ import {
   APP_WRAPPER_ID,
   TRANSLATE_POPUP_ID,
 } from "./translation_popup";
-import { CACHE_ACTIONS, CardHeading, DefinitionEntry } from "../types";
+import { CardHeading, DefinitionEntry } from "../types";
 import React from "react";
 import ReactDOM from "react-dom";
 import { API_ACTIONS } from "../api_client/constants";
 import { isTranslationPopupShowing } from "../utils/utils";
-
-const VOICE = "EkhoCantonese";
-const SPEED_DELTA = -10;
-
-// This is intentionally declared to stop typescript from warning
-// WebSpeech is imported via manifest.json
-declare const WebSpeech: any;
-declare const soundManager: any;
-
-// I'm really not sure why Firefox doesn't properly set up
-// sound manager, so I'm manually setting it up here
-// url, debugMode, onReady copied from WebSpeech.js
-soundManager.setup({
-  url: '/WebSpeech/soundmanager2',
-  debugMode: false,
-  onready: function() { WebSpeech.onready(); }
-});
-
-WebSpeech.ready(() => {
-  console.debug("Setting up WebSpeech");
-  WebSpeech.setVoice(VOICE);
-  WebSpeech.setSpeedDelta(SPEED_DELTA);
-});
 
 const REGEX_CHINESE =
   /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/;
@@ -41,28 +18,35 @@ const div = document.createElement("div");
 div.id = APP_WRAPPER_ID;
 document.body.appendChild(div);
 
+
 const displayTranslatePopup = (event: MouseEvent, data: any) => {
   const position = "absolute";
-  const left: number = window.pageXOffset + event.clientX;
-  -100;
+  const left: number = window.pageXOffset + event.clientX - 100;
   const top: number = window.pageYOffset + event.clientY + 15;
+
+  const entries: DefinitionEntry[] | undefined = data.entries;
 
   ReactDOM.render(
     <>
-      {data && data.definition && (
+      {data && entries && entries.length > 0 && (
         <TranslationPopup
-          traditional={data.traditional}
-          simplified={data.simplified}
-          pinyin={data.pinyin}
-          jyutping={data.jyutping}
-          definition={data.definition}
+          entries={entries}
+          originalText={data.originalText}
           style={{ left, top, position }}
           show={true}
         />
       )}
-      {data && !data.definition && (
+      {data && (!entries || entries.length === 0) && !data.searchComplete && (
         <TranslationPopup
-          traditional={data.traditional}
+          originalText={data.originalText}
+          searchComplete={data.searchComplete}
+          show={true}
+          style={{ left, top, position }}
+        />
+      )}
+      {data && (!entries || entries.length === 0) && data.searchComplete && (
+        <TranslationPopup
+          originalText={data.originalText}
           searchComplete={data.searchComplete}
           show={true}
           style={{ left, top, position }}
@@ -87,26 +71,18 @@ const generateTranslationContent = async (e: MouseEvent, text: string) => {
   if (text.match(REGEX_CHINESE)) {
     const cardHeading: CardHeading = { traditional: text };
     // Display popup whichs says loading...
-    displayTranslatePopup(e, { ...cardHeading, searchComplete: false });
+    displayTranslatePopup(e, { originalText: cardHeading.traditional, searchComplete: false });
 
     // Displays popup with definitions
     const generatePopup = async () => {
       chrome.runtime.sendMessage(
-        { action: CACHE_ACTIONS.GET_CACHE, text: text },
-        (data: DefinitionEntry) => {
-          if (data.traditional) {
-            console.debug(`Hit cache with: ${data.traditional}`);
-            displayTranslatePopup(e, { ...data, searchComplete: true });
-            return;
-          }
-
-          chrome.runtime.sendMessage(
-            { action: API_ACTIONS.GET_DEFINITION, text: text },
-            (data: DefinitionEntry) => {
-              displayTranslatePopup(e, { ...data, searchComplete: true });
-              chrome.runtime.sendMessage({ action: CACHE_ACTIONS.SET_CACHE, data: data });
-            }
-          );
+        { action: API_ACTIONS.GET_ENTRIES, text: text },
+        (entries: DefinitionEntry[]) => {
+          displayTranslatePopup(e, {
+            entries,
+            originalText: text,
+            searchComplete: true,
+          });
         }
       );
     };
@@ -141,19 +117,19 @@ document.addEventListener('mousemove', async (e: MouseEvent) => {
 
   const highlighted = window.getSelection()?.toString();
   if (!highlighted) return;
-  
+
   // This is the rectangle coordinates of the highlighted text
   const textRectangle = window.getSelection()?.getRangeAt(0).getClientRects();
   if (!textRectangle) return;
-  
-  for (var i = 0 ; i < textRectangle.length ; i++) {
-    if(e.clientX >= textRectangle[i].left && e.clientX <= textRectangle[i].right &&
-      e.clientY >= textRectangle[i].top  && e.clientY <= textRectangle[i].bottom
-      ) {
-        if (!isTranslationPopupShowing()) {
-          await generateTranslationContent(e, highlighted);
-          break;
-        }
+
+  for (var i = 0; i < textRectangle.length; i++) {
+    if (e.clientX >= textRectangle[i].left && e.clientX <= textRectangle[i].right &&
+      e.clientY >= textRectangle[i].top && e.clientY <= textRectangle[i].bottom
+    ) {
+      if (!isTranslationPopupShowing()) {
+        await generateTranslationContent(e, highlighted);
+        break;
+      }
     }
   }
 });

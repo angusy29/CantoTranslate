@@ -5,7 +5,7 @@ export interface DefinitionEntry {
   simplified: string;
   pinyin: string;
   jyutping: string;
-  definition: string;
+  definitions: string[];
   // custom message string returned back by API
   message: string;
 }
