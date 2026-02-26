@@ -76,7 +76,7 @@ export const TranslationPopup = (props: any) => {
 
   const googleTranslateLink =
     "https://translate.google.com/?sl=yue&tl=en&text=" +
-    traditional +
+    encodeURIComponent(traditional) +
     "&op=translate&hl=en";
 
   return (
